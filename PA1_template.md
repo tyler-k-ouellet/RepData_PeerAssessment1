@@ -12,13 +12,15 @@ In this file I will load the data set, calculate some summary statisitics, imput
 
 First, I set my working directory.
 
-```{r}
+
+```r
 setwd("/Users/Tyler/Desktop/")
 ```
 
 Next, I download the zip file and open the data as a data frame in R.
 
-```{r}
+
+```r
 ## Download the data
 
 url <- "http://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
@@ -32,7 +34,8 @@ activity <- read.csv("activity.csv")
 
 To make working with the data easier and quicker I load the library "data.table" and transform my data frame into a data table. I also transform the 'date' column into a date object. 
 
-```{r}
+
+```r
 library("data.table")
 
 activity <- data.table(activity)
@@ -44,49 +47,59 @@ activity$date <- as.Date(activity$date)
 
 The next graph shows a histogram of the total total number of steps taken in a day.
 
-```{r}
+
+```r
 activity.agg <- activity[ , list(total.steps = sum(steps)), by = date ]
 
 hist(activity.agg$total.steps, xlab = "Number of steps", main = "Total number of steps taken each day")
 ```
 
-```{r}
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+
+
+```r
 mean <- as.integer(mean(activity.agg$total.steps, na.rm = TRUE))
 
 median <- as.integer(median(activity.agg$total.steps, na.rm = TRUE))
-
 ```
 
-The mean number steps taken across all days is: `r mean`.
-The median number steps taken across all days is: `r median`.
+The mean number steps taken across all days is: 10766.
+The median number steps taken across all days is: 10765.
 
 ## What is the average daily activity pattern?
 
 Below is a time series plot of the average number of steps during each interval.
 
-```{r}
+
+```r
 activity.agg2 <- activity[ , list(avg.steps = mean(steps, na.rm = TRUE)), by = interval ]
 
 with(activity.agg2, plot(interval, avg.steps, type = "l", ylab = "Average number of steps", main = "Average daily activity" ))
+```
 
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
+
+```r
 max <- activity.agg2[avg.steps %in% max(avg.steps)]$interval
 ```
 
-The interval that on average has the maximum number of steps taken is: `r max`.
+The interval that on average has the maximum number of steps taken is: 835.
 
 ## Imputing missing values
 
 The following code calculates the total number of steps that are marked 'NA' i.e. missing values.
 
-```{r}
+
+```r
 num.missing <- NROW(activity[is.na(steps) == TRUE, ])
 ```
 
-The total number of missing step values are: `r num.missing`.
+The total number of missing step values are: 2304.
 
 The missing values for steps are imputed by replacing 'NA' values with the average number of steps for that particular interval over all days in the data set. 
 
-```{r}
+
+```r
 activity.temp <- merge(activity, activity.agg2, by = "interval")
 
 activity.temp$steps <- ifelse(is.na(activity.temp$steps), activity.temp$avg.steps, activity.temp$steps)
@@ -94,7 +107,8 @@ activity.temp$steps <- ifelse(is.na(activity.temp$steps), activity.temp$avg.step
 
 The data is then transformed into a data set called activity.2, which is equivilent to the original data set with the exeption that missing data has now been imputed for steps. The steps below transform the data to make it identical except for replacing NAs.
 
-```{r}
+
+```r
 activity.2 <- activity.temp
 
 activity.2$avg.steps <- NULL
@@ -106,24 +120,28 @@ setcolorder( activity.2, c("steps", "date", "interval") )
 
 Next  a histogram 
 
-```{r}
+
+```r
 activity.agg3 <- activity.2[ , list(total.steps = sum(steps)), by = date ]
 
 hist(activity.agg3$total.steps, xlab = "Number of steps", main = "Total number of steps taken each day")
 ```
 
-```{r}
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
+
+
+```r
 mean <- as.integer(mean(activity.agg3$total.steps))
 
 median <- as.integer(median(activity.agg3$total.steps))
-
 ```
 
-The mean number steps taken across all days is: `r mean`.
-The median number steps taken across all days is: `r median`.
+The mean number steps taken across all days is: 10766.
+The median number steps taken across all days is: 10766.
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r}
+
+```r
 activity.2$week <- weekdays(activity.2$date) 
 
 activity.2$week <- ifelse(activity.2$week == "Saturday" | activity.2$week == "Sunday", "Weekend", "Weekday")
@@ -143,3 +161,5 @@ xyplot(steps ~ interval | week,
        ylab = "Number of steps",
        layout = c(1, 2))
 ```
+
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
