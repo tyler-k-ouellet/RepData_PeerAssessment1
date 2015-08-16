@@ -1,12 +1,12 @@
 ---
 title: "Peer Assessment 1 - Coursera: Reproduceible Research "
 author: "Tyler Ouellet"
-date: "July 20, 2014"
+date: "August 16, 2015"
 ---
 
 # Introduction
 
-In this file I will load the data set, calculate some summary statisitics, imput missing data, recalculate the summary statisitics and finally analyze whether there is any difference between weekends and week days.
+In this file I will load the data set, calculate some summary statisitics, input missing data, recalculate the summary statisitics and finally analyze whether there is any difference between weekends and week days.
 
 ## Loading and preprocessing the data
 
