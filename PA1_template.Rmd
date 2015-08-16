@@ -13,7 +13,7 @@ In this file I will load the data set, calculate some summary statisitics, imput
 First, I set my working directory.
 
 ```{r}
-setwd("/Users/Tyler/Desktop/")
+setwd("/Users/Tyler/Desktop/RepData_PeerAssessment1")
 ```
 
 Next, I download the zip file and open the data as a data frame in R.
@@ -69,7 +69,7 @@ activity.agg2 <- activity[ , list(avg.steps = mean(steps, na.rm = TRUE)), by = i
 
 with(activity.agg2, plot(interval, avg.steps, type = "l", ylab = "Average number of steps", main = "Average daily activity" ))
 
-max <- activity.agg2[avg.steps %in% max(avg.steps)]$interval
+max <- activity.agg2[activity.agg2$avg.steps %in% max(avg.steps)]$interval
 ```
 
 The interval that on average has the maximum number of steps taken is: `r max`.
