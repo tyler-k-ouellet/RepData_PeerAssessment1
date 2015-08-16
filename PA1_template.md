@@ -1,12 +1,12 @@
 ---
 title: "Peer Assessment 1 - Coursera: Reproduceible Research "
 author: "Tyler Ouellet"
-date: "August 16, 2015"
+date: "July 20, 2014"
 ---
 
 # Introduction
 
-In this file I will load the data set, calculate some summary statisitics, input missing data, recalculate the summary statisitics and finally analyze whether there is any difference between weekends and week days.
+In this file I will load the data set, calculate some summary statisitics, imput missing data, recalculate the summary statisitics and finally analyze whether there is any difference between weekends and week days.
 
 ## Loading and preprocessing the data
 
@@ -14,7 +14,7 @@ First, I set my working directory.
 
 
 ```r
-setwd("/Users/Tyler/Desktop/")
+setwd("/Users/Tyler/Desktop/RepData_PeerAssessment1")
 ```
 
 Next, I download the zip file and open the data as a data frame in R.
@@ -54,7 +54,7 @@ activity.agg <- activity[ , list(total.steps = sum(steps)), by = date ]
 hist(activity.agg$total.steps, xlab = "Number of steps", main = "Total number of steps taken each day")
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
 
 
 ```r
@@ -77,10 +77,10 @@ activity.agg2 <- activity[ , list(avg.steps = mean(steps, na.rm = TRUE)), by = i
 with(activity.agg2, plot(interval, avg.steps, type = "l", ylab = "Average number of steps", main = "Average daily activity" ))
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png) 
 
 ```r
-max <- activity.agg2[avg.steps %in% max(avg.steps)]$interval
+max <- activity.agg2[activity.agg2$avg.steps %in% max(avg.steps)]$interval
 ```
 
 The interval that on average has the maximum number of steps taken is: 835.
@@ -127,7 +127,7 @@ activity.agg3 <- activity.2[ , list(total.steps = sum(steps)), by = date ]
 hist(activity.agg3$total.steps, xlab = "Number of steps", main = "Total number of steps taken each day")
 ```
 
-![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10-1.png) 
 
 
 ```r
@@ -162,4 +162,4 @@ xyplot(steps ~ interval | week,
        layout = c(1, 2))
 ```
 
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12-1.png) 
